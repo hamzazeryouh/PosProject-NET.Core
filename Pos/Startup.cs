@@ -2,14 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Pomelo.EntityFrameworkCore.MySql;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using Pomelo.EntityFrameworkCore.MySql.Storage;
 
 namespace Pos
 {
@@ -26,6 +31,11 @@ namespace Pos
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddDbContext<DataContext>(options => options
+                .UseMySql("Server=localhost; port=3306; Database=POSDB;User=root;Password=",
+                    mysqlOptions =>
+                        mysqlOptions.ServerVersion(new ServerVersion(new Version(8, 0, 18), ServerType.MariaDb))));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

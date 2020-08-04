@@ -1,6 +1,6 @@
 ﻿namespace core.Entities
 {
-    class Products :EntityBase
+  public  class Products :EntityBase
     {
        public string   NamePro { get; set; }
         public  string Description { get; set; }
