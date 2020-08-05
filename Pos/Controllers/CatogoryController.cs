@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Pos.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class CatogoryController : ControllerBase
     {
