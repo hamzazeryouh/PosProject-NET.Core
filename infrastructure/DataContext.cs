@@ -13,6 +13,10 @@ namespace infrastructure
         {
         }
         public DbSet<Categorys> Categorys { get; set; }
+        public DbSet<Groups> Groups { get; set; }
+        public DbSet<Rolls> Rolls { get; set; }
+
+
 
         public DbSet<Products> Products { get; set; }
         public DbSet<Users> Users { get; set; }

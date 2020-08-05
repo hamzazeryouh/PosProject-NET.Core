@@ -5,17 +5,18 @@ using System.Threading.Tasks;
 using core.Entities;
 using infrastructure;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Pos.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class CatogoryController : ControllerBase
+    public class CategoryController : ControllerBase
     {
-        public DataContext _Data { get; }
+        public readonly DataContext _Data;
 
-        public CatogoryController( DataContext data)
+        public CategoryController( DataContext data)
         {
             _Data = data;
         }
@@ -25,13 +26,17 @@ namespace Pos.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Categorys>> Get()
         {
-            var Cat = _Data.Categorys.ToList<Categorys>();
+            var Cat = _Data.Categorys.ToList();
+            if (Cat == null)
+            {
+                return BadRequest("vide List");
+            }
             return Cat;
         }
 
         // GET: api/Catogory/5
-        [HttpGet("{id}", Name = "Get")]
-        public ActionResult<IEnumerable<Categorys>> Get(int id)
+        [HttpGet("{id}")]
+        public ActionResult<IEnumerable<Categorys>> GetByID(int id)
         {
             var Category = _Data.Categorys.Find(id);
             if (Category == null)
@@ -56,7 +61,14 @@ namespace Pos.Controllers
         [HttpPut("{id}")]
         public ActionResult Put(int id, [FromBody] Categorys cat)
         {
+            if (id != cat.Id)
+            {
+                return BadRequest();
+            }
+            _Data.Entry(cat).State = EntityState.Modified;
+            _Data.SaveChanges();
             return Ok();
+           
         }
 
         // DELETE: api/ApiWithActions/5
