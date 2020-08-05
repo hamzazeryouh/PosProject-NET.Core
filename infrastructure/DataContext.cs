@@ -12,6 +12,8 @@ namespace infrastructure
         public DataContext(DbContextOptions<DataContext> options) :base(options)
         {
         }
+        public DbSet<Categorys> Categorys { get; set; }
+
         public DbSet<Products> Products { get; set; }
         public DbSet<Users> Users { get; set; }
 
